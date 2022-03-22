@@ -1,5 +1,7 @@
 @extends( "layouts.master" )
 
+@section( "title", Szerkeztés )
+
 @section( "content" )
 
 @if( $errors->any() )
@@ -14,7 +16,7 @@
 
 <form action="/update-perfume" method="post">
     @csrf
-    <input type="hidden" name="id" value="{{ $perfume->id }}">
+    <input type="hidden" name="id" value = "{{ $perfume->id }}" >
     <p>
         <label for="">Név</label>
         <input type="text" name="name" value="{{ $perfume->name }}">

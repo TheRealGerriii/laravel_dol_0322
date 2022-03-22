@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Perfume;
 
 class PerfumeController extends Controller
 {
@@ -10,7 +11,7 @@ class PerfumeController extends Controller
 
         $perfumes = Perfume::all();
 
-        return view( "/perfumes" );
+        return view( "/perfumes", [ "perfumes" => $perfumes ] );
     }
 
     public function newPerfume() {
@@ -25,6 +26,16 @@ class PerfumeController extends Controller
         $perfume->name = $request->name;
         $perfume->type = $request->type;
         $perfume->price = (int)$request->price;
+
+        $request->validate([
+            "name"=>"required",
+            "type"=>"required",
+            "price"=>"required"
+        ], [
+            "name.required" => "Nem hagyható üresen a név mező!",
+            "type.required" => "Nem hagyható üresen a típus mező!",
+            "price.required" => "Nem hagyható üresen az ár mező!"
+        ]);
 
         $perfume->save();
 
@@ -42,6 +53,25 @@ class PerfumeController extends Controller
 
     public function updatePerfume( Request $request ) {
 
+        $perfume = Perfume::find( $request->id);
+
+        $perfume->name = $request->name;
+        $perfume->type = $request->type;
+        $perfume->price = (int)$request->price;
+
+        $request->validate([
+            "name"=>"required",
+            "type"=>"required",
+            "price"=>"required"
+        ], [
+            "name.required" => "Nem hagyható üresen a név mező!",
+            "type.required" => "Nem hagyható üresen a típus mező!",
+            "price.required" => "Nem hagyható üresen az ár mező!"
+        ]);
+
+        $perfume->save();
+        
+        return redirect("/");
     }
 
     public function deletePerfume( $id ) {
